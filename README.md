@@ -3,7 +3,7 @@ Folders and files lists :-
 1).settings:-
   a)org.eclipse.jdt.core.prefs
 
-2)src/UI_Testing1/:-
+2)src/UI_Testing1/Products:-
   a)UI-ProductsTesting-TestCase.xlsx
 
 3).classpath
@@ -11,3 +11,5 @@ Folders and files lists :-
 4).gitgnore
 
 5).project
+
+6) README.md
