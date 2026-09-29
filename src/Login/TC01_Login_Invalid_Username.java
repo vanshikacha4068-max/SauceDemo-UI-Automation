@@ -3,55 +3,82 @@ package Login;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.time.Duration;
 
 public class TC01_Login_Invalid_Username {
 
     public static void main(String[] args) {
 
-        WebDriver verma = new ChromeDriver();
+        // Open browser
+        WebDriver driver = new ChromeDriver();
 
         try {
 
-            verma.manage().window().maximize();
+            // Open website
+            driver.get("https://www.saucedemo.com/");
 
-            verma.get("https://www.saucedemo.com/");
-
-            Login_page varun = new Login_page(verma);
-
-            varun.Loginn(
-                "invalid_user",
-                "secret_sauce"
+            // Wait for username field
+            WebDriverWait wait = new WebDriverWait(
+                driver, Duration.ofSeconds(10)
             );
 
-            // Get the error message
-            String actualMessage = verma.findElement(
-                By.cssSelector("[data-test='error']")
-            ).getText();
+            wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//input[@id='user-name']")
+                )
+            );
 
-            // Verify the invalid username is rejected
-            if (actualMessage.contains(
+            // Enter invalid username
+            driver.findElement(
+                By.xpath("//input[@id='user-name']")
+            ).sendKeys("invalid_user");
+
+            // Enter valid password
+            driver.findElement(
+                By.xpath("//input[@id='password']")
+            ).sendKeys("secret_sauce");
+
+            // Click login button
+            driver.findElement(
+                By.xpath("//input[@id='login-button']")
+            ).click();
+
+            // Wait for error message
+            WebElement error = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//h3[@data-test='error']")
+                )
+            );
+
+            // Get actual error message
+            String actual = error.getText();
+
+            System.out.println("Actual Error: " + actual);
+
+            // Verify result
+            if (actual.contains(
                 "Username and password do not match"
             )) {
 
                 System.out.println(
-                    "TC01_Login_Invalid_Username: PASS"
+                    "TC01 PASS: Invalid username rejected"
                 );
 
             } else {
 
-                System.out.println(
-                    "TC01_Login_Invalid_Username: FAIL"
-                );
-
+                System.out.println("TC01 FAIL");
             }
 
         } finally {
 
-            verma.quit();
-
+            // Close browser
+            driver.quit();
         }
-
     }
-
 }
+     

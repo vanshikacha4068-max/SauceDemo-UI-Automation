@@ -3,7 +3,12 @@ package Login;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.time.Duration;
 
 public class TC04_Login_Username_standard_user {
 
@@ -12,36 +17,54 @@ public class TC04_Login_Username_standard_user {
         WebDriver driver = new ChromeDriver();
 
         try {
-            driver.manage().window().maximize();
 
-            // Open SauceDemo website
+            // Open SauceDemo
             driver.get("https://www.saucedemo.com/");
 
+            WebDriverWait wait = new WebDriverWait(
+                driver, Duration.ofSeconds(10)
+            );
+
             // Enter username
-            driver.findElement(By.id("user-name"))
-                  .sendKeys("standard_user");
+            driver.findElement(
+                By.xpath("//input[@id='user-name']")
+            ).sendKeys("standard_user");
 
             // Enter password
-            driver.findElement(By.id("password"))
-                  .sendKeys("secret_sauce");
+            driver.findElement(
+                By.xpath("//input[@id='password']")
+            ).sendKeys("secret_sauce");
 
             // Click login button
-            driver.findElement(By.id("login-button"))
-                  .click();
+            driver.findElement(
+                By.xpath("//input[@id='login-button']")
+            ).click();
 
-            // Verify login
-            if (driver.getCurrentUrl().contains("inventory.html")) {
+            // Wait for Products page
+            WebElement title = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//span[@class='title']")
+                )
+            );
 
-                System.out.println("TEST CASE PASSED");
-                System.out.println("Login successful!");
+            // Verify result
+            String actual = title.getText();
+
+            System.out.println("Page Title: " + actual);
+
+            if (actual.equals("Products")) {
+
+                System.out.println(
+                    "TC04 PASS: standard_user login successful"
+                );
 
             } else {
 
-                System.out.println("TEST CASE FAILED");
-                System.out.println("Login unsuccessful!");
+                System.out.println("TC04 FAIL");
             }
 
         } finally {
+
             driver.quit();
         }
     }
