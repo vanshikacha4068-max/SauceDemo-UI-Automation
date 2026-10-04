@@ -12,6 +12,8 @@
             <class name="Products.TC03_ProductNameTitle"/>
             
            <class name="Products.TC04_ProductDescription"/>
+           
+           <class name="Products.TC05_ProductPrice"/>
         </classes>
 
     </test>
