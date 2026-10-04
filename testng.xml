@@ -10,6 +10,8 @@
             <class name="Products.TC01_ProductImage"/>
             <class name="Products.TC02_ProductDisplay"/>
             <class name="Products.TC03_ProductNameTitle"/>
+            
+           <class name="Products.TC04_ProductDescription"/>
         </classes>
 
     </test>
