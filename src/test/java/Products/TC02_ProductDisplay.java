@@ -1,8 +1,11 @@
 package Products;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -14,9 +17,14 @@ public class TC02_ProductDisplay extends BaseTest {
     @Test
     public void verifyProductsDisplayed() {
 
+        WebDriverWait wait =
+                new WebDriverWait(driver, Duration.ofSeconds(10));
+
         List<WebElement> products =
-                driver.findElements(
-                        LocatorManager.productItem()
+                wait.until(
+                        ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                                LocatorManager.productItem()
+                        )
                 );
 
         System.out.println("Total products: " + products.size());

@@ -27,4 +27,17 @@ public class LocatorManager {
                 Propertiesmanager.getXpath("sortDropdown")
         );
     }
-}
+    
+    
+    public static By productTitleLink() {
+        return By.xpath(
+                Propertiesmanager.getXpath("productTitleLink")
+        );
+    }
+
+    public static By backToProductsButton() {
+        return By.xpath(
+                Propertiesmanager.getXpath("backToProductsButton")
+        );
+    }
+}
