@@ -1,15 +1,72 @@
-Folders and files lists :-
+selenium-automation-framework/
+├── pom.xml
+└── src/
+    ├── main/
+    │   └── java/
+    │       └── com/
+    │           └── example/
+    │               ├── config/
+    │               │   └── ConfigReader.java
+    │               ├── driver/
+    │               │   └── DriverManager.java
+    │               ├── pages/
+    │               │   ├── BasePage.java
+    │               │   ├── LoginPage.java
+    │               │   └── DashboardPage.java
+    │               └── utils/
+    │                   └── ScreenshotUtils.java
+    └── test/
+        ├── java/
+        │   └── com/
+        │       └── example/
+        │           ├── tests/
+        │           │   ├── BaseTest.java
+        │           │   └── LoginTest.java
+        │           └── listeners/
+        │               └── TestListener.java
+        └── resources/
+            └── config.properties
 
-1).settings:-
-  a)org.eclipse.jdt.core.prefs
 
-2)src/UI_Testing1/Products:-
-  a)UI-ProductsTesting-TestCase.xlsx
 
-3).classpath
+*Technologies Stack*
 
-4).gitgnore
+Technology
 
-5).project
+Purpose
 
-6) README.md
+Java
+
+Test automation programming
+
+Selenium WebDriver
+
+Automating web browser actions
+
+TestNG
+
+Test cases, annotations and execution
+
+Maven
+
+Project build and dependency management
+
+Eclipse
+
+Java development
+
+Git
+
+Version control
+
+GitHub
+
+Source code repository
+
+Chrome / ChromeDriver
+
+Browser execution
+
+Excel
+
+Test case documentation
