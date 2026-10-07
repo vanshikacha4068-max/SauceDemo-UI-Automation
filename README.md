@@ -1,3 +1,6 @@
+## Project Structure
+
+```text
 selenium-automation-framework/
 ├── pom.xml
 └── src/
@@ -15,6 +18,7 @@ selenium-automation-framework/
     │               │   └── DashboardPage.java
     │               └── utils/
     │                   └── ScreenshotUtils.java
+    │
     └── test/
         ├── java/
         │   └── com/
@@ -24,8 +28,10 @@ selenium-automation-framework/
         │           │   └── LoginTest.java
         │           └── listeners/
         │               └── TestListener.java
+        │
         └── resources/
             └── config.properties
+```
 
 
 
