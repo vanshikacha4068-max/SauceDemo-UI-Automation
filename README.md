@@ -35,41 +35,7 @@ selenium-automation-framework/
 
 
 
-*Technologies Stack*
 
-Technology
-
-Purpose
-
-Java
-
-Test automation programming
-
-Selenium WebDriver
-
-Automating web browser actions
-
-TestNG
-
-Test cases, annotations and execution
-
-Maven
-
-Project build and dependency management
-
-Eclipse
-
-Java development
-
-Git
-
-Version control
-
-GitHub
-
-Source code repository
-
-Chrome / ChromeDriver
 
 Browser execution
 
