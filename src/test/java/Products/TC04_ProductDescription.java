@@ -1,9 +1,11 @@
 package Products;
 
 import java.time.Duration;
+
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,10 +15,17 @@ import org.testng.annotations.Test;
 import Utilities.BaseTest;
 import Utilities.LocatorManager;
 
-public class TC04_ProductDescription extends BaseTest {
+public class TC04_ProductDescription  {
 
     @Test
     public void verifyProductDescriptionsDisplayed() {
+    	
+    	BaseTest baseTest = new BaseTest();
+
+        try {
+
+            baseTest.setUp();
+            WebDriver driver=baseTest.getDriver();
 
         WebDriverWait wait =
                 new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -72,5 +81,9 @@ public class TC04_ProductDescription extends BaseTest {
         System.out.println(
                 "TC04 PASS: All products have a visible description."
         );
+        }
+        finally {
+        	baseTest.tearDown();
+        }
     }
 }

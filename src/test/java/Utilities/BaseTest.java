@@ -2,22 +2,19 @@ package Utilities;
 
 import java.time.Duration;
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+
 
 public class BaseTest {
 
     protected WebDriver driver;
 
-    @BeforeMethod
+    
     public void setUp() {
 
         driver = new ChromeDriver();
@@ -37,29 +34,34 @@ public class BaseTest {
                         By.id("user-name")
                 )
         );
-
+        //Enter user name
         driver.findElement(
-                org.openqa.selenium.By.id("user-name")
+                By.id("user-name")
         ).sendKeys(
                 Propertiesmanager.getOther("username")
         );
-
+        //Enter password
         driver.findElement(
-                org.openqa.selenium.By.id("password")
+                By.id("password")
         ).sendKeys(
                 Propertiesmanager.getOther("password")
         );
-
+        //Click Login
         driver.findElement(
-                org.openqa.selenium.By.id("login-button")
+                By.id("login-button")
         ).click();
     }
+    
+    public WebDriver getDriver() {
+        return driver;
+    }
 
-    @AfterMethod
+    
     public void tearDown() {
 
         if (driver != null) {
             driver.quit();
+            driver = null;
         }
     }
 }

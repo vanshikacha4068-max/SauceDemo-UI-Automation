@@ -1,8 +1,10 @@
 package Products;
 
 import java.time.Duration;
+
 import java.util.List;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,22 +14,32 @@ import org.testng.annotations.Test;
 import Utilities.BaseTest;
 import Utilities.LocatorManager;
 
-public class TC02_ProductDisplay extends BaseTest {
+public class TC02_ProductDisplay  {
 
     @Test
     public void verifyProductsDisplayed() {
+    	
+    	BaseTest baseTest=new BaseTest();
+    	
+        try {
 
-        WebDriverWait wait =
-                new WebDriverWait(driver, Duration.ofSeconds(10));
+            baseTest.setUp();
 
-        List<WebElement> products =
-                wait.until(
-                        ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                                LocatorManager.productItem()
-                        )
-                );
+            WebDriver driver = baseTest.getDriver();
 
-        System.out.println("Total products: " + products.size());
+            WebDriverWait wait =
+                    new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            List<WebElement> products =
+                    wait.until(
+                            ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                                    LocatorManager.productItem()
+                            )
+                    );
+
+            System.out.println(
+                    "Total products: " + products.size()
+            );
 
         boolean allProductsDisplayed = true;
 
@@ -53,5 +65,9 @@ public class TC02_ProductDisplay extends BaseTest {
         System.out.println(
                 "TC02 PASS: All products are displayed."
         );
+        }
+        finally {
+        	baseTest.tearDown();
+        }
     }
 }

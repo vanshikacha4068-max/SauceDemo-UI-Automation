@@ -4,11 +4,13 @@ package Products;
 import java.util.List;
 
 
+
 import java.time.Duration;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -16,11 +18,18 @@ import org.testng.annotations.Test;
 import Utilities.BaseTest;
 import Utilities.LocatorManager;
 
-public class TC03_ProductNameTitle extends BaseTest {
+public class TC03_ProductNameTitle  {
 
     @Test
     public void verifyProductNamesDisplayed() {
     	
+    	BaseTest baseTest = new BaseTest();
+
+        try {
+
+            baseTest.setUp();
+
+            WebDriver driver = baseTest.getDriver();
     	
     	WebDriverWait wait =
     	        new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -46,7 +55,7 @@ public class TC03_ProductNameTitle extends BaseTest {
 
             WebElement productName =
                     product.findElement(
-                            org.openqa.selenium.By.className(
+                            By.className(
                                     "inventory_item_name"
                             )
                     );
@@ -72,5 +81,9 @@ public class TC03_ProductNameTitle extends BaseTest {
         System.out.println(
                 "TC03 PASS: All products have a visible name/title."
         );
+        }
+        finally {
+        	baseTest.tearDown();
+        }
     }
 }

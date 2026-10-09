@@ -1,160 +1,191 @@
 package Products;
 
 import org.openqa.selenium.By;
-
-
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+
 
 import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import Utilities.BaseTest;
+import Utilities.LocatorManager;
 
 public class TC06_ProductDetailsNavigation {
 
     
 		@Test
 		 public void productDetailsNavigation() {
-        WebDriver driver = new ChromeDriver();
+			 // Create BaseTest object
+	        BaseTest baseTest = new BaseTest();
 
-        driver.get("https://www.saucedemo.com/");
+	        try {
 
-        // Login
-        driver.findElement(By.id("user-name"))
-                .sendKeys("standard_user");
+	            // Initialize browser and login
+	            baseTest.setUp();
 
-        driver.findElement(By.id("password"))
-                .sendKeys("secret_sauce");
+	            // Get WebDriver from BaseTest object
+	            WebDriver driver = baseTest.getDriver();
 
-        driver.findElement(By.id("login-button"))
-                .click();
+	            WebDriverWait wait =
+	                    new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        System.out.println("Login completed");
-        System.out.println("Current URL: " + driver.getCurrentUrl());
+	            // Wait for Products page
+	            wait.until(
+	                    ExpectedConditions.visibilityOfElementLocated(
+	                            LocatorManager.productItem()
+	                    )
+	            );
 
-        WebDriverWait wait =
-                new WebDriverWait(driver, Duration.ofSeconds(10));
+	            // Find all products
+	            List<WebElement> products =
+	                    driver.findElements(
+	                            LocatorManager.productItem()
+	                    );
 
-        // Wait for Products page
-        wait.until(
-                ExpectedConditions.visibilityOfElementLocated(
-                        By.className("inventory_item")
-                )
-        );
+	            System.out.println(
+	                    "Number of products found: " + products.size()
+	            );
 
-        // Get number of products
-        List<WebElement> products =
-                driver.findElements(
-                        By.xpath("//div[@class='inventory_item']")
-                );
+	            Assert.assertFalse(
+	                    products.isEmpty(),
+	                    "No products were found on the Products page."
+	            );
 
-        System.out.println("Number of products found: "
-                + products.size());
+	            boolean allNavigationSuccessful = true;
 
-        boolean allNavigationSuccessful = true;
+	            // Check every product
+	            for (int i = 0; i < products.size(); i++) {
 
-        // Check every product
-        for (int i = 0; i < products.size(); i++) {
+	                // Re-find products after returning from details page
+	                products =
+	                        wait.until(
+	                                ExpectedConditions
+	                                        .visibilityOfAllElementsLocatedBy(
+	                                                LocatorManager.productItem()
+	                                        )
+	                        );
 
-            // Re-find products after returning from details page
-            products = driver.findElements(
-                    By.xpath("//div[@class='inventory_item']")
-            );
+	                WebElement product = products.get(i);
 
-            WebElement product = products.get(i);
+	                // Get product name
+	                String productName =
+	                        product.findElement(
+	                                LocatorManager.productName()
+	                        ).getText();
 
-            // Get product name
-            String productName =
-                    product.findElement(
-                            By.className("inventory_item_name")
-                    ).getText();
+	                System.out.println(
+	                        "Testing product: " + productName
+	                );
 
-            System.out.println("Testing product: "
-                    + productName);
+	                // Find clickable product title
+	                WebElement productLink =
+	                        product.findElement(
+	                                LocatorManager.productTitleLink()
+	                        );
+	                
+	             // Wait until the product title is clickable
+	                wait.until(
+	                        ExpectedConditions.elementToBeClickable(productLink)
+	                );
 
-            // Find clickable product title
-            WebElement productLink =
-                    product.findElement(
-                            By.xpath(".//a[contains(@id,'title_link')]")
-                    );
+	                // Click product title
+	                productLink.click();
+	                try {
+	                // Wait for Product Details page
+	                wait.until(
+	                        ExpectedConditions.urlContains(
+	                                "inventory-item.html"
+	                        )
+	                );
+	                } catch (org.openqa.selenium.TimeoutException e) {
 
-            // Click product title
-            productLink.click();
+	                    System.out.println(
+	                            "Normal click did not navigate for: " + productName
+	                    );
 
-            // Wait for details page
-            wait.until(
-                    ExpectedConditions.urlContains(
-                            "inventory-item.html"
-                    )
-            );
+	                    System.out.println(
+	                            "Trying JavaScript click..."
+	                    );
 
-            String currentUrl = driver.getCurrentUrl();
+	                    // Fallback if the normal click does not navigate
+	                    ((org.openqa.selenium.JavascriptExecutor) driver)
+	                            .executeScript("arguments[0].click();", productLink);
 
-            System.out.println("Details URL: "
-                    + currentUrl);
+	                    // Wait again for Product Details page
+	                    wait.until(
+	                            ExpectedConditions.urlContains(
+	                                    "inventory-item.html"
+	                            )
+	                    );
+	                }
+	             // Get the current URL after navigation
+	                String currentUrl = driver.getCurrentUrl();
 
-            // Get product name from details page
-            WebElement detailsProductName =
-                    wait.until(
-                            ExpectedConditions.visibilityOfElementLocated(
-                                    By.className("inventory_details_name")
-                            )
-                    );
+	                System.out.println(
+	                        "Details URL: " + currentUrl
+	                );
 
-            String detailsName =
-                    detailsProductName.getText();
+	                // Find product name on the details page
+	                WebElement detailsProductName =
+	                        wait.until(
+	                                ExpectedConditions.visibilityOfElementLocated(
+	                                        By.className("inventory_details_name")
+	                                )
+	                        );
 
-            System.out.println("Details page product: "
-                    + detailsName);
+	                String detailsName =
+	                        detailsProductName.getText();
 
-            // Verify navigation and product identity
-            if (currentUrl.contains("inventory-item.html")
-                    && productName.equals(detailsName)) {
+	                System.out.println(
+	                        "Details page product: " + detailsName
+	                );
 
-                System.out.println(
-                        "Result: PASS"
-                );
+	                // Verify navigation and product identity
+	                if (currentUrl.contains("inventory-item.html")
+	                        && productName.equals(detailsName)) {
 
-            } else {
+	                    System.out.println("Result: PASS");
 
-                System.out.println(
-                        "Result: FAIL"
-                );
+	                } else {
 
-                allNavigationSuccessful = false;
-            }
+	                    System.out.println("Result: FAIL");
 
-            System.out.println("-------------------------");
+	                    allNavigationSuccessful = false;
+	                }
 
-            // Return to Products page
-            driver.navigate().back();
+	                System.out.println("-------------------------");
 
-            wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(
-                            By.className("inventory_item")
-                    )
-            );
-        }
+	                // Return to Products page
+	                driver.navigate().back();
 
-        // Final result
-        if (allNavigationSuccessful && !products.isEmpty()) {
+	                wait.until(
+	                        ExpectedConditions.visibilityOfElementLocated(
+	                                LocatorManager.productItem()
+	                        )
+	                );
+	            }
 
-            System.out.println(
-                    "TC06 PASS: Product details navigation works correctly for all products."
-            );
+	            // Final assertion
+	            Assert.assertTrue(
+	                    allNavigationSuccessful,
+	                    "Product details navigation failed for one or more products."
+	            );
 
-        } else {
+	            System.out.println(
+	                    "TC06 PASS: Product details navigation works correctly "
+	                            + "for all products."
+	            );
 
-            System.out.println(
-                    "TC06 FAIL: Product details navigation failed for one or more products."
-            );
-        }
+	        } finally {
 
-        driver.quit();
+	            // Close browser even if the test fails
+	            baseTest.tearDown();
+	        }
     }
 }
