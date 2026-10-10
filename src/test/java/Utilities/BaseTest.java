@@ -19,7 +19,7 @@ public class BaseTest {
 
         driver = new ChromeDriver();
 
-        driver.manage().window().maximize();
+        driver.manage().window().setSize(new org.openqa.selenium.Dimension(1280, 800));
 
         driver.get(
                 Propertiesmanager.getOther("baseUrl")
