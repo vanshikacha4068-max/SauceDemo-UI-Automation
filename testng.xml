@@ -18,6 +18,7 @@
            <class name="Products.TC07_BackToProducts"/>
            <class name="Products.TC08_ProductSortingAZ"/>
            <class name="Products.TC09_ProductSortingZA"/>
+           <class name="Products.TC10_ProductSortingPriceLowHigh"/>
            
            
         </classes>
