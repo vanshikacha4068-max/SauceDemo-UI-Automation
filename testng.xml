@@ -19,6 +19,7 @@
            <class name="Products.TC08_ProductSortingAZ"/>
            <class name="Products.TC09_ProductSortingZA"/>
            <class name="Products.TC10_ProductSortingPriceLowHigh"/>
+           <class name="Products.TC11_ProductSortingPriceHighLow"/>
            
            
         </classes>
