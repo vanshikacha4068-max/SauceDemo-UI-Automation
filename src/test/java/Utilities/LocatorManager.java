@@ -40,4 +40,25 @@ public class LocatorManager {
                 Propertiesmanager.getXpath("backToProductsButton")
         );
     }
+    
+    public static By addToCartButton() {
+        return By.xpath(".//button[contains(@id, 'add-to-cart')]");
+    }
+    public static By shoppingCartLink() {
+        return By.xpath(
+                Propertiesmanager.getXpath("shoppingCartLink")
+        );
+    }
+
+    public static By cartBadge() {
+        return By.xpath(
+                Propertiesmanager.getXpath("cartBadge")
+        );
+    }
+
+    public static By cartItemName() {
+        return By.xpath(
+                Propertiesmanager.getXpath("cartItemName")
+        );
+    }
 }
